@@ -1,0 +1,106 @@
+﻿<Window x:Class="DataGridDELETE.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataGridDELETE"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1100" Loaded="Window_Loaded">
+    <Window.Resources>
+        <local:EnumToArrayConverter x:Key="EnumToArrayConverter"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:MainVM/>
+    </Window.DataContext>
+    <Grid Margin="10 50 10 30">
+        <StackPanel Orientation="Vertical">
+            <DataGrid ItemsSource="{Binding DataCollection}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedData}" Height="250">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Width="auto" Binding="{Binding Name}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Description" Width="auto" Binding="{Binding Description}"></DataGridTextColumn>
+                    <DataGridTemplateColumn Width="*" Header="ComboBox">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding SelectedComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <ComboBox.Items>
+                                        <system:String>Один</system:String>
+                                        <system:String>Два</system:String>
+                                    </ComboBox.Items>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*" Header="Buttons">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button>
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Content" Value="Один"></Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SelectedComboBox}" Value="Два">
+                                                    <Setter Property="Content" Value="Два"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*" Header="ComboBox - Enums">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding Source={x:Type local:Operation}, Converter={StaticResource EnumToArrayConverter}}" SelectedItem="{Binding SelectedOperation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}"></TextBlock>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridComboBoxColumn Width="*"  Header="DataGridComboBoxColumn Ap" local:EnumToItemSourse.EnumType="{x:Type local:Operation}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValueBinding="{Binding SelectedOperationApDg, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTemplateColumn Width="*" Header="ComboBox - Enums Ap">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox local:EnumToItemSourse.EnumType="{x:Type local:Operation}" SelectedValuePath="Key" SelectedValue="{Binding SelectedOperationAp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Value}"></TextBlock>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock>
+                <Run>В DataDrid выбрано - Name:</Run>
+                <Run Text="{Binding SelectedData.Name}"></Run>
+                <Run>Description:</Run>
+                <Run Text="{Binding SelectedData.Description}"></Run>
+                <Run>Значение ComboBox:</Run>
+                <Run Text="{Binding SelectedData.SelectedComboBox}"></Run>
+            </TextBlock>
+            <TextBlock Margin="0 20 0 0">
+                <Run>В ComboBox Enums - конвертор выбрано: </Run>
+                <Run Text="{Binding SelectedData.SelectedOperation}"></Run>
+            </TextBlock>
+            <TextBlock Margin="0 20 0 0">
+                <Run>DataGridComboBoxColumn Ap: </Run>
+                <Run Text="{Binding SelectedData.SelectedOperationApDg}"></Run>
+            </TextBlock>
+
+            <TextBlock Margin="0 20 0 0">
+                <Run>ComboBox - Enums Ap: </Run>
+                <Run Text="{Binding SelectedData.SelectedOperationAp}"></Run>
+            </TextBlock>
+            <Button Click="Button_Click">Открыть окно</Button>
+        </StackPanel>
+    </Grid>
+</Window>

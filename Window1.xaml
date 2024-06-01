@@ -1,0 +1,58 @@
+﻿<Window x:Class="DataGridDELETE.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataGridDELETE"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        mc:Ignorable="d"
+        Title="Window1" Height="450" Width="800">
+    <Grid Margin="50">
+        <StackPanel Orientation="Vertical">
+            <DataGrid ItemsSource="{Binding Path=(local:MainVM.Instance).DataCollection}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedData, Source={x:Static local:MainVM.Instance}}" Height="250">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Description" Width="*" Binding="{Binding Description}"></DataGridTextColumn>
+                    <DataGridTemplateColumn Width="*" Header="ComboBox">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding SelectedComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <ComboBox.Items>
+                                        <system:String>Один</system:String>
+                                        <system:String>Два</system:String>
+                                    </ComboBox.Items>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*" Header="Buttons">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button>
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Content" Value="Один"></Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SelectedComboBox}" Value="Два">
+                                                    <Setter Property="Content" Value="Два"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock>
+            <Run>В DataDrid выбрано - Name:</Run>
+            <Run Text="{Binding SelectedData.Name, Source={x:Static local:MainVM.Instance}}"></Run>
+            <Run>Description:</Run>
+            <Run Text="{Binding SelectedData.Description, Source={x:Static local:MainVM.Instance}}"></Run>
+            <Run>Значение ComboBox:</Run>
+            <Run Text="{Binding SelectedData.SelectedComboBox, Source={x:Static local:MainVM.Instance}}"></Run>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Window>
