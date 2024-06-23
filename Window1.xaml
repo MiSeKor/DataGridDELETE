@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:DataGridDELETE"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800">
+        Title="Window1" Height="450" Width="800"> 
     <Grid Margin="50">
         <StackPanel Orientation="Vertical">
-            <DataGrid ItemsSource="{Binding Path=(local:MainVM.Instance).DataCollection}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedData, Source={x:Static local:MainVM.Instance}}" Height="250">
+            <DataGrid Style="{DynamicResource datag1}" ItemsSource="{Binding Path=(local:MainVM.Instance).DataCollection}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedData, Source={x:Static local:MainVM.Instance}}" Height="250" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Description" Width="*" Binding="{Binding Description}"></DataGridTextColumn>

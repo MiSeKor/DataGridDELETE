@@ -9,16 +9,32 @@
         Title="MainWindow" Height="600" Width="1100" Loaded="Window_Loaded">
     <Window.Resources>
         <local:EnumToArrayConverter x:Key="EnumToArrayConverter"/>
+        <Style x:Key="datag1" TargetType="DataGrid">
+            <Setter Property="ColumnHeaderStyle" Value="{DynamicResource chs1}"></Setter>
+        </Style>
+        <Style x:Key="chs1" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="Blue"></Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="BaseButton">
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="Background" Value="Aqua"></Setter>
+
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource BaseButton}"></Style>
+
     </Window.Resources>
     <Window.DataContext>
         <local:MainVM/>
     </Window.DataContext>
     <Grid Margin="10 50 10 30">
         <StackPanel Orientation="Vertical">
-            <DataGrid ItemsSource="{Binding DataCollection}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedData}" Height="250">
+            <DataGrid ItemsSource="{Binding DataCollection}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedData}" Height="250"
+                      Style="{DynamicResource datag1}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Width="auto" Binding="{Binding Name}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Description" Width="auto" Binding="{Binding Description}"></DataGridTextColumn>
+                    <DataGridCheckBoxColumn Header="test" Width="60" Binding="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                    <DataGridCheckBoxColumn Header="test" Width="60" Binding="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                    <DataGridTextColumn IsReadOnly="{Binding SelectedData.IsChecked}" Header="Name" Width="auto" Binding="{Binding Name}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Description" Width="auto" Binding="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
                     <DataGridTemplateColumn Width="*" Header="ComboBox">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

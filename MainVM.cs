@@ -56,11 +56,16 @@ namespace DataGridDELETE
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        private bool _IsChecked = false;
         private string _selectedComboBox;
         private Operation _selectedOperation;
        
         private Operation _selectedOperationApDg;
-
+        public bool IsChecked
+        {
+            get => _IsChecked;
+            set => SetField(ref _IsChecked, value);
+        }
         public string SelectedComboBox
         {
             get => _selectedComboBox;
