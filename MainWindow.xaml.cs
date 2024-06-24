@@ -17,9 +17,12 @@ namespace DataGridDELETE
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainVM VM = new();
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = VM;
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -31,6 +34,11 @@ namespace DataGridDELETE
         {
             Window1 w1 = new();
             w1.Show();
+        }
+
+        private void DataGrid1_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e)
+        {
+            if (VM.SelectedData.IsChecked) e.Cancel = true;
         }
     }
 }
